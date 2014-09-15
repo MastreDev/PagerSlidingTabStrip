@@ -87,6 +87,10 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 	private int tabPadding = 24;
 	private int dividerWidth = 1;
 
+	private int indicatorPaddingBottom = 0;
+	private int indicatorPaddingLeft = 0;
+	private int indicatorPaddingRight = 0;
+
 	private int tabTextSize = 12;
 	private int tabTextColor = 0xFF666666;
 	private Typeface tabTypeface = null;
@@ -151,6 +155,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 		shouldExpand = a.getBoolean(R.styleable.PagerSlidingTabStrip_pstsShouldExpand, shouldExpand);
 		scrollOffset = a.getDimensionPixelSize(R.styleable.PagerSlidingTabStrip_pstsScrollOffset, scrollOffset);
 		textAllCaps = a.getBoolean(R.styleable.PagerSlidingTabStrip_pstsTextAllCaps, textAllCaps);
+		indicatorPaddingBottom = a.getDimensionPixelSize(R.styleable.PagerSlidingTabStrip_pstsIndicatorPaddingBottom, indicatorPaddingBottom);
+		indicatorPaddingLeft = a.getDimensionPixelSize(R.styleable.PagerSlidingTabStrip_pstsIndicatorPaddingLeft, indicatorPaddingLeft);
+		indicatorPaddingRight = a.getDimensionPixelSize(R.styleable.PagerSlidingTabStrip_pstsIndicatorPaddingRight, indicatorPaddingRight);
 
 		a.recycle();
 
@@ -320,21 +327,21 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
 		// default: line below current tab
 		View currentTab = tabsContainer.getChildAt(currentPosition);
-		float lineLeft = currentTab.getLeft();
-		float lineRight = currentTab.getRight();
+		float lineLeft = currentTab.getLeft() + indicatorPaddingLeft;
+		float lineRight = currentTab.getRight() - indicatorPaddingRight;
 
 		// if there is an offset, start interpolating left and right coordinates between current and next tab
 		if (currentPositionOffset > 0f && currentPosition < tabCount - 1) {
 
 			View nextTab = tabsContainer.getChildAt(currentPosition + 1);
-			final float nextTabLeft = nextTab.getLeft();
-			final float nextTabRight = nextTab.getRight();
+			final float nextTabLeft = nextTab.getLeft() + indicatorPaddingLeft;
+			final float nextTabRight = nextTab.getRight() - indicatorPaddingRight;
 
 			lineLeft = (currentPositionOffset * nextTabLeft + (1f - currentPositionOffset) * lineLeft);
 			lineRight = (currentPositionOffset * nextTabRight + (1f - currentPositionOffset) * lineRight);
 		}
 
-		canvas.drawRect(lineLeft, height - indicatorHeight, lineRight, height, rectPaint);
+		canvas.drawRect(lineLeft, height - indicatorPaddingBottom - indicatorHeight, lineRight, height - indicatorPaddingBottom, rectPaint);
 
 		// draw underline
 

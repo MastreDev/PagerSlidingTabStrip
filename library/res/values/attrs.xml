@@ -13,6 +13,9 @@
         <attr name="pstsTabBackground" format="reference" />
         <attr name="pstsShouldExpand" format="boolean" />
         <attr name="pstsTextAllCaps" format="boolean" />
+        <attr name="pstsIndicatorPaddingLeft" format="dimension" />
+        <attr name="pstsIndicatorPaddingRight" format="dimension" />
+        <attr name="pstsIndicatorPaddingBottom" format="dimension" />
     </declare-styleable>
 
 </resources>
